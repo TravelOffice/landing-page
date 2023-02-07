@@ -1,0 +1,30 @@
+version: 0.2
+
+env:
+  variables:
+    NODE_ENV: "production"
+
+phases:
+  install:
+    commands:
+      - echo Installing dependency...
+      - n 16
+      - npm install -g next
+      - npm install -g yarn
+      - npm install -g typescript
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - yarn install --production=false
+      - yarn build
+      - yarn export
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'out'
+
+cache:
+  paths:
+    - '/root/.cache/yarn/**/*'
+    - '/root/.npm/**/*'
